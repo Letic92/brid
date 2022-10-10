@@ -1,35 +1,49 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="">Sort by</span>
-                </div>
-                <select class="form-select" id="list-select">
-                    <option value="name" @if ($sort == 'name') selected @endif>Title</option>
-                    <option value="image" @if ($sort == 'image') selected @endif>Image</option>
-                    <option value="thumbnail" @if ($sort == 'thumbnail') selected @endif>Thumbnail</option>
-                    <option value="duration" @if ($sort == 'duration') selected @endif>Duration</option>
-                    <option value="publish" @if ($sort == 'publish') selected @endif>Publish</option>
-                </select>
+        @if ($videos->isEmpty())
+            <div class="col">
+                <form wire:submit.prevent="refreshVideos">
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" wire:model.defer="json" aria-label="Url json"
+                               placeholder="Url json.." value="{{ $search }}">
+                        <div class="input-group-prepend">
+                            <button class="btn btn-dark">Refresh</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-        <div class="col">
-            <form>
+        @else
+            <div class="col">
                 <div class="input-group mb-3">
-                    <input type="text" name="search" class="form-control" wire:model="search" aria-label="Search.."
-                           placeholder="Search.." value="{{ $search }}">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="">Sort by</span>
+                    </div>
+                    <select class="form-select" id="list-select">
+                        <option value="name" @if ($sort == 'name') selected @endif>Title</option>
+                        <option value="image" @if ($sort == 'image') selected @endif>Image</option>
+                        <option value="thumbnail" @if ($sort == 'thumbnail') selected @endif>Thumbnail</option>
+                        <option value="duration" @if ($sort == 'duration') selected @endif>Duration</option>
+                        <option value="publish" @if ($sort == 'publish') selected @endif>Publish</option>
+                    </select>
                 </div>
-            </form>
-        </div>
-        <div class="col" wire:key="list-button">
-            <button class="btn btn-dark" wire:click="videosLower60">Video < 60</button>
-        </div>
-        <div class="col" wire:key="list-exclude-button">
-            <button class="btn btn-success" wire:click="$set('excluded_selected_videos', [])">Reset selected
-                excluded videos
-            </button>
-        </div>
+            </div>
+            <div class="col">
+                <form>
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" wire:model="search" aria-label="Search.."
+                               placeholder="Search.." value="{{ $search }}">
+                    </div>
+                </form>
+            </div>
+            <div class="col" wire:key="list-button">
+                <button class="btn btn-dark" wire:click="videosLower60">Video < 60</button>
+            </div>
+            <div class="col" wire:key="list-exclude-button">
+                <button class="btn btn-success" wire:click="$set('excluded_selected_videos', [])">Reset selected
+                    excluded videos
+                </button>
+            </div>
+        @endif
     </div>
     <div class="row">
         <table class="table table-hover table-dark">
@@ -75,6 +89,7 @@
                     @empty
                         <tr>
                             <th scope="row" class="table-">0</th>
+                            <th>EMPTY</th>
                             <th>EMPTY</th>
                             <th>EMPTY</th>
                             <th>EMPTY</th>

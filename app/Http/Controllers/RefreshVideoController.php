@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Http\Controllers;
 
 use App\Models\CustomParams;
 use App\Models\Dai;
@@ -9,50 +9,28 @@ use App\Models\Snapshot;
 use App\Models\Source;
 use App\Models\Track;
 use App\Models\Video;
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Bus\Dispatchable;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Queue\SerializesModels;
+use Illuminate\Http\Request;
 
-class RefreshVideoList implements ShouldQueue
+class RefreshVideoController extends Controller
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-
-    private $json;
-    private $type;
-    public function __construct($json, $type)
+    public function refreshVideos($json, $type)
     {
-        $this->json = $json;
-        $this->type = $type;
-    }
-
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
-    {
-        switch ($this->type) {
+        switch ($type) {
             case "url":
-                $json = file_get_contents($this->json);
+                $json = file_get_contents($json);
                 break;
             case "file":
-                $json = file_get_contents(storage_path() . "/" . $this->json);
+                $json = file_get_contents(storage_path() . "/" . $json);
                 break;
             default:
 
         }
 
         $data = json_decode($json, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return 'invalid json.';
+        }
 
         foreach ($data['Video'] as $video) {
             $videoObj = Video::find($video['id']);

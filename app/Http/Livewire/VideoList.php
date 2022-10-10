@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Http\Controllers\RefreshVideoController;
 use App\Models\Video;
 use Livewire\Component;
 
@@ -36,7 +37,9 @@ class VideoList extends Component
 
     public function refreshVideos()
     {
-        dispatch(new App\Jobs\RefreshVideoList($this->json, 'url'));
+        RefreshVideoController::refreshVideos($this->json, 'url');
+
+        return redirect()->with('success', 'success message');
     }
 
     public function render()

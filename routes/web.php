@@ -17,8 +17,8 @@ Route::get('/', function () {
     return view('video-list');
 });
 
-Route::get('test', function () {
+Route::get('refresh', function () {
     $json = 'https://services.brid.tv/services/mrss/latest/1/0/1/25/0.json';
 
-    dispatch(new App\Jobs\RefreshVideoList($json, 'url'));
+    dispatch(new App\Jobs\RefreshVideoListJob($json, 'url'));
 });
