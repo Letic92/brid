@@ -16,12 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('video-list');
-});
+})->name('index');
 
 Route::get('refresh', function () {
     $json = 'https://services.brid.tv/services/mrss/latest/1/0/1/25/0.json';
 
     dispatch(new App\Jobs\RefreshVideoListJob($json, 'url'));
-});
+})->name('refresh.videos');
 
 Route::get('video', [VideoController::class, 'getVideo'])->name('video');
