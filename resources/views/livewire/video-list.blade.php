@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        @if ($videos->isEmpty())
+        @if (!$videosTable)
             <div class="col">
                 <form wire:submit.prevent="refreshVideos">
                     <div class="input-group mb-3">

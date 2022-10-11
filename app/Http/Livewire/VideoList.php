@@ -19,6 +19,7 @@ class VideoList extends Component
     public $videosLower60 = false;
     public $excluded_selected_videos = [];
     public $json;
+    public $videosTable = false;
 
     protected $listeners = [
         'changeOrder',
@@ -29,6 +30,11 @@ class VideoList extends Component
         'sort',
         'search',
     ];
+
+    public function mount()
+    {
+        $this->videosTable = Video::exists();
+    }
 
     public function changeOrder($order)
     {
@@ -45,6 +51,11 @@ class VideoList extends Component
         RefreshVideoController::refreshVideos($this->json, 'url');
 
         return redirect()->with('success', 'success message');
+    }
+
+    public function updatingSearch()
+    {
+        $this->gotoPage(1);
     }
 
     public function render()
