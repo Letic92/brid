@@ -5,10 +5,15 @@ namespace App\Http\Livewire;
 use App\Http\Controllers\RefreshVideoController;
 use App\Models\Video;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class VideoList extends Component
 {
-    public $videos;
+    use WithPagination;
+
+    public $paginateNumber = 10;
+    protected $paginationTheme = 'bootstrap';
+
     public $sort = 'name';
     public $search;
     public $videosLower60 = false;
@@ -44,13 +49,13 @@ class VideoList extends Component
 
     public function render()
     {
-        $this->videos = Video::whereNotIn('id', $this->excluded_selected_videos)
+        $videos = Video::whereNotIn('id', $this->excluded_selected_videos)
             ->when(!empty($this->search), function ($query) {
                 return $query->where('name', 'LIKE', '%' . $this->search . '%' ?? '')->orWhere('duration', '=', $this->search ?? '');
             })
             ->when($this->videosLower60, function ($query) {
                 return $query->where('duration', '<', '60');
-            })->orderBy($this->sort)->get();
-        return view('livewire.video-list');
+            })->orderBy($this->sort)->paginate($this->paginateNumber)->withQueryString();
+        return view('livewire.video-list', ['videos' => $videos]);
     }
 }

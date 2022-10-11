@@ -60,7 +60,7 @@
             </thead>
 
             <tbody>
-            @forelse($videos as $video)
+            @forelse($videos as $key => $video)
                 @switch(TRUE)
                     @case($video->duration <= 60)
                     <tr class="table-dark" wire:key="video-{{ $video->id }}">
@@ -74,7 +74,7 @@
                     @default
                     <tr wire:key="video-{{ $video->id }}">
                         @endswitch
-                        <th scope="row">{{ $loop->index }}</th>
+                        <th scope="row">{{ $videos->withQueryString()->firstItem() + $key }}</th>
                         <td><input type="checkbox" wire:model="excluded_selected_videos" value="{{ $video->id }}"></td>
                         <td>{{ $video->name }}</td>
                         <td>
@@ -99,5 +99,13 @@
                     @endforelse
             </tbody>
         </table>
+    </div>
+    <div class="row">
+        <div class="col">
+            <span>Presented {{ $videos->withQueryString()->firstItem() }} - {{ $videos->withQueryString()->lastItem() }} of {{ $videos->withQueryString()->total() }} videos</span>
+        </div>
+        <div class="col">
+            {{ $videos->withQueryString()->links() }}
+        </div>
     </div>
 </div>
