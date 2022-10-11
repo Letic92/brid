@@ -15,21 +15,25 @@ class RefreshVideoController extends Controller
 {
     public function refreshVideos($json, $type)
     {
-        switch ($type) {
-            case "url":
-                $json = file_get_contents($json);
-                break;
-            case "file":
-                $json = file_get_contents(storage_path() . "/" . $json);
-                break;
-            default:
+        try {
+            switch ($type) {
+                case "url":
+                    $json = file_get_contents($json);
+                    break;
+                case "file":
+                    $json = file_get_contents(storage_path() . "/" . $json);
+                    break;
+                default:
 
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
         }
 
         $data = json_decode($json, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return 'invalid json.';
+            return redirect()->back()->with('error', 'error');
         }
 
         foreach ($data['Video'] as $video) {

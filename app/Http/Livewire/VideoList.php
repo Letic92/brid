@@ -50,7 +50,7 @@ class VideoList extends Component
     {
         RefreshVideoController::refreshVideos($this->json, 'url');
 
-        return redirect()->with('success', 'success message');
+        return redirect('/')->with('success', 'Success refreshed videos');
     }
 
     public function updatingSearch()
