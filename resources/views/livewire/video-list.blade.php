@@ -78,10 +78,10 @@
                         <td><input type="checkbox" wire:model="excluded_selected_videos" value="{{ $video->id }}"></td>
                         <td>{{ $video->name }}</td>
                         <td>
-                            <img src="{{ $video->image }}" alt="{{ $video->name }}">
+                            <a href="{{ $video->image }}"><img src="{{ $video->image }}" alt="{{ $video->name }}"></a>
                         </td>
                         <td>
-                            <img src="{{ $video->thumbnail }}" alt="{{ $video->name }}">
+                            <a href="{{ $video->thumbnail }}"><img src="{{ $video->thumbnail }}" alt="{{ $video->name }}"></a>
                         </td>
                         <td>{{ $video->duration }}</td>
                         <td>{{ $video->publish }}</td>

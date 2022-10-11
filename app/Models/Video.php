@@ -61,4 +61,9 @@ class Video extends Model
     {
         return $this->belongsToMany(Pixel::class, 'video_pixel', 'video_id', 'pixel_id');
     }
+
+    public function getPublishAttribute($value)
+    {
+        return date( 'Y.m.d', strtotime($value));
+    }
 }
