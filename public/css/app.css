@@ -10821,3 +10821,12 @@ textarea.form-control-lg {
     display: none !important;
   }
 }
+.video-image > a > img {
+  width: 200px;
+  height: 200px;
+}
+
+.video-thumbnail > a > img {
+  width: 180px;
+  height: 100px;
+}

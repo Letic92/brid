@@ -76,11 +76,11 @@
                         @endswitch
                         <th scope="row">{{ $videos->withQueryString()->firstItem() + $key }}</th>
                         <td><input type="checkbox" wire:model="excluded_selected_videos" value="{{ $video->id }}"></td>
-                        <td>{{ $video->name }}</td>
-                        <td>
+                        <td><a href="{{ route('video', ['video_id' => $video->id]) }}">{{ $video->name }}</a></td>
+                        <td class="video-image">
                             <a href="{{ $video->image }}"><img src="{{ $video->image }}" alt="{{ $video->name }}"></a>
                         </td>
-                        <td>
+                        <td class="video-thumbnail">
                             <a href="{{ $video->thumbnail }}"><img src="{{ $video->thumbnail }}" alt="{{ $video->name }}"></a>
                         </td>
                         <td>{{ $video->duration }}</td>

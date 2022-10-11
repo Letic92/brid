@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VideoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,3 +23,5 @@ Route::get('refresh', function () {
 
     dispatch(new App\Jobs\RefreshVideoListJob($json, 'url'));
 });
+
+Route::get('video', [VideoController::class, 'getVideo'])->name('video');
